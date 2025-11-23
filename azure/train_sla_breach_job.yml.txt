@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+
+display_name: sla-breach-train
+experiment_name: sla-breach-experiment
+
+code: ..
+command: >
+  python src/train_sla_breach_model.py
+
+environment:
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+  conda_file: ../environment.yml   # optional if you create one
+
+compute: azureml:cpu-cluster   # change to your compute cluster name
+
+inputs:
+  dummy_data:
+    type: uri_file
+    path: azureml://datastores/workspaceblobstore/paths/slabreach/dummy_change_request_data.csv
+
+resources:
+  instance_count: 1
